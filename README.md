@@ -1,2 +1,2 @@
-# CHILDES_project
-This project aims to build a model to classify children's language development
+# CHILDES_data_cleaned
+This code aims to clean data from CHILDES
