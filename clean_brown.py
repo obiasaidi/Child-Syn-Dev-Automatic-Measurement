@@ -15,6 +15,21 @@ n_files = 0
 utils.profiling_init(utils)
 print("\n===CHILDES data processing===\nOpening files in '" + dir_in + "':")
 
+def fix_word(line):
+    line = re.sub(r" em ", " them ", line)
+    line = re.sub(r" ya |^ya ", " you ", line)
+    line = re.sub(r" ta |^ta ", " to ", line)
+    line = re.sub(r" hafta |^hafta ", " have to ", line)
+    line = re.sub(r" sposta |^sposta ", " supposed to ", line)
+    line = re.sub(r" hadta |^hadta ", " had to ", line)
+    line = re.sub(r" hasta |^hasta ", " has to ", line)
+    line = re.sub(r" needta |^needta ", " need to ", line)
+    line = re.sub(r" useta |^useta ", " used to ", line)
+    line = re.sub(r" outa |^outa ", " out of ", line)
+    line = re.sub(r" oughta |^oughta ", " ought to ", line)
+    line = re.sub(r"going a ", "going to ", line)
+    return line+"\n"
+
 def preprocess(line):
     line = ' '.join(line.strip().split()) # Remove extra spaces
     line = line[6:] # Remove the first 6 characters
@@ -44,22 +59,24 @@ def preprocess(line):
     line = re.sub(r'\+\.\.\.', '[incomplete speech]', line)  # Replace +... with [incomplete speech]
     line = re.sub('↫.*?↫', '', line) # Remove text between '↫' symbols
     line = re.sub(r'\(\.+\)', '[PAUSE]', line)  # Replace (.) (..) (...) with [PAUSE]
-    line = re.sub(r'\(|\)', '', line)  # Revise patterns like op(en) to be open
+    line = re.sub(r'\(|\)', '', line)  # Revise patterns like op(en) to be like open
     line = re.sub(r':', '', line)  # Remove : in patterns like mi:lk
     line = re.sub(r'(?<=\w)_(?=\w|\s)', ' ', line)  # Remove _ in patterns like teddy_bear
     line = re.sub(r'(x|y){2,3}', '[unintellegible speech]', line)  # Replace xxx or yyy with [unintellegible speech]
     line = re.sub(r'w{2,3}', '[untranscribed material]', line)  # Replace www with [untranscribed material]
     line = utils.normalize_quotes(line)  # normalize quotation
-
-    line = re.sub(r'<.*?>\s*\[/+\](\s*\(\.+\))?|(?:(?!<[^>]*>).)+\[/+\](\s*\(\.+\))?', '', line)  # Handle retracing and repetition < > [/] [//] (.)
     line = re.sub(r'\[[\?]\]|\[!+\]', '', line)  # Remove [?] [!] [!!]
-    line = re.sub(r'<(.*?)>', r'\1', line)  # Persist text inside < >
     line = re.sub(r'0', '', line)  # Remove 0
     line = re.sub(r'\[<\]|\[>\]', '', line)  # Remove [<] and [>]
+    
+    # Handle repetition and retracing [/] [//]
+    line = re.sub(r"<.+?>(\s+\[.+?\])?\s+\[/+\]", "", line)
+    line = re.sub(r"\S+?(\s+\[.+?\])?\s+\[/+\]", "", line)
+    line = re.sub(r"\s*\[/+\]", "", line)
     line = re.sub(r'[<>]', '', line)  # Remove unnecessary/left < >
 
     line = re.sub(r'^[ .?!]*$', '', line)  # Remove space .?! in the lines with only space . ? !
-
+    line = fix_word(line) # Fix words like hafta sposta 
     line = line.strip(' ')  # Remove leading and trailing space
     line = utils.remove_multiple_spacing(line)  # Handle multiple spaces
     return line + "\n"
