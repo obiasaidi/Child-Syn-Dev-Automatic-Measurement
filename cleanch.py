@@ -14,7 +14,14 @@ def fix_word(line):
     line = re.sub(r" outa |^outa ", " out of ", line)
     line = re.sub(r" oughta |^oughta ", " ought to ", line)
     line = re.sub(r"going a ", "going to ", line)
-    return line+"\n"
+    return line
+
+def gram(line):
+    line = re.sub(r'\$n', '-[NOUN]', line)
+    line = re.sub(r'\$v', '-[VERB]', line)
+    line = re.sub(r'\$adj', '-[ADJ]', line)
+    line = re.sub(r'\$inf', '-[INF]', line)
+    return line
 
 
 def preprocess(line):
@@ -67,6 +74,7 @@ def preprocess(line):
 
     line = re.sub(r'^[ .?!]*$', '', line)  # Remove space .?! in the lines with only space . ? !
     line = fix_word(line)  # Fix words like hafta sposta
+    line = gram(line)  # Fix gram pattern $
     line = line.strip(' ')  # Remove leading and trailing space
     line = utils.remove_multiple_spacing(line)  # Handle multiple spaces
     return line + "\n"
@@ -84,8 +92,7 @@ def clean(line):
     line = re.sub(r"\[\*\s*[mp]\]", '', line)  # Remove patterns like [* m] or [* p]
     line = re.sub(r'[\wʃʌɪɯəɪˈʤʧ@]+\s*\[\*\s(\w{2,})\]', r'\1', line)  # Handle patterns like [* forgot] and [* that]
     line = re.sub(r'\S+?\s*\[:\s*(.+?)\]\s*\[\*\]', r'\1', line)  # Handle patterns like 'berg [: brig] [*]'
-    line = re.sub(r'\S+?\s*\[:\s*(.+?)\]\s*\[\*.+?\]', r'\1',
-                  line)  # Handle patterns like 'I neededed [: needed] [* +ed-dup]'
+    line = re.sub(r'\S+?\s*\[:\s*(.+?)\]\s*\[\*.+?\]', r'\1', line)  # Handle patterns like 'I neededed [: needed] [* +ed-dup]'
     line = re.sub(r'\[\*\s[^m].+?\]', '', line)  # Handle patterns like 'she [* s:r]'
     line = re.sub(r'\S+?\s*\[=\s*(.+?)\]\s*\[\*\]', r'\1', line)  # Handle patterns like 'why [= because] [*]'
     line = re.sub(r'\S+?\s*\[\*\]\s*\[=\s*(.+?)\]', r'\1', line)  # Handle patterns like 'Jophes [*] [= Joseph]'
@@ -95,7 +102,7 @@ def clean(line):
     line = re.sub(r'\[\*\sm:=ed\]', '[past error]', line)  # Handle [*m:=ed]
     line = re.sub(r'\s*\[\*\sm:0(\w+).*?\]', r'\1', line)  # Handle [m:0 ] missing reg form
     line = re.sub(r'\[\*\sm:a\]', '[morph error]', line)  # Handle [*m:a] morph error
-    line = re.sub(r"s \[\* m=s\]", '', line)  # Handle [* m=s] morph error
+    line = re.sub(r"s|s*\[\* m=s\]", '', line)  # Handle [* m=s] morph error
 
     # Handle [=!  ] [=?  ] [%  ]
     line = re.sub(r'0?\s*\[=!\s.+?\](\s*\.)?', '', line)  # Remove patterns like [=! wolf noises]
@@ -107,8 +114,7 @@ def clean(line):
     line = re.sub(r'0\s*\[=\s.+?\](\s*\.)?', '', line)  # Remove patterns like 0 [=   ]
     line = re.sub(r"\S+\s*\[=\s([\w'@]+?)\]", r'\1', line)  # Handle pattern like mhm [= yes]
     # This pattern doesnt have scope for the strings that are being corrected
-    line = re.sub(r"\[=\s.+?\]", '',
-                  line)  # Handle patterns like 'don't say me that [= don't say that I hafta put on my socks]'
+    line = re.sub(r"\[=\s.+?\]", '',line)  # Handle patterns like 'don't say me that [= don't say that I hafta put on my socks]'
 
     # Handle patterns like dat [: that]
     line = re.sub(r"\S+ \[: (.+?)\]", r'\1', line)  # Handle dat [: that]
@@ -147,6 +153,7 @@ def clean(line):
     line = fix_word(line)  # Fix words like hafta sposta
 
     line = utils.normalize_quotes(line)  # normalize quotation
+    line = gram(line)  # Fix gram pattern $
     line = line.strip()
     line = utils.remove_multiple_spacing(line)
     return line + "\n"
