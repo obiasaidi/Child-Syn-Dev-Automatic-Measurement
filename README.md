@@ -1,4 +1,4 @@
-# Children Syntactic Development
+# Child Syn Dev Automatic Measurement
 This project aims to create an automated measurement of the development of children syntactic acquisition using The Growing Tree approach
 
 ## Data Cleaning
