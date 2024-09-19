@@ -50,7 +50,7 @@ def preprocess(line):
     line = re.sub(r'&=0', '', line)  # Remove patterns like &=0
     line = re.sub(r"&[*=~+-][\w'@^-]+(\s*[.?!])?", '', line)  # Remove patterns like &* &= &~ &+ &-
 
-    line = re.sub(r'„', ',', line)  # Replace „ with ,
+    line = re.sub(r'[‡„]', ',', line)  # replace „ and ‡ with ,
     line = re.sub(r'\+\<|\+\^|\^', '', line)  # Remove +< and +^ and ^
     line = re.sub(r'\+\.\.\.', '[incomplete speech]', line)  # Replace +... with [incomplete speech]
     line = re.sub('↫.*?↫', '', line)  # Remove text between '↫' symbols
@@ -126,7 +126,7 @@ def clean(line):
     line = re.sub(r'\(|\)', '', line)  # Revise patterns like op(en) to be like open
     line = re.sub(r':', '', line)  # Remove : in patterns like mi:lk
     line = re.sub(r'(?<=\w)_(?=\w|\s)', ' ', line)  # Remove _ in patterns like teddy_bear
-    line = re.sub(r'„', ',', line)  # replace „ with ,
+    line = re.sub(r'[‡„]', ',', line)  # replace „ and ‡ with ,
 
     # Handle Ampersand &
     line = re.sub(r'&=0', '', line)  # Remove patterns like &=0
