@@ -35,7 +35,7 @@ for dirpath, dirnames, filenames in os.walk(dir_in):
                             cleaned_line = cleanch.preprocess(line)
 
                             # Check for duplicate and empty lines in cleaned text
-                            if prev_cleaned_line != cleaned_line and not utils.is_empty_line(cleaned_line) and not cleanch.is_one_word(cleaned_line_mw) and not re.match(r'^\[[\w\s]*\](\s*[.!?])?$', cleaned_line_mw):
+                            if prev_cleaned_line != cleaned_line and not utils.is_empty_line(cleaned_line) and not cleanch.is_one_word(cleaned_line) and not re.match(r'^\[[\w\s]*\](\s*[.!?])?$', cleaned_line):
                                 prev_cleaned_line = cleaned_line
                                 text_cleaned += cleaned_line
 
