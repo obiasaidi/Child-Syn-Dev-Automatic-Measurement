@@ -24,10 +24,10 @@ for dirpath, dirnames, filenames in os.walk(dir_in):
             print(".", end="")
             n_files += 1
             with open(file_path, encoding='utf8', errors='ignore') as f:
+                prev_line = ""
+                prev_cleaned_line = ""
+                
                 for line in f:
-                    prev_line = ""
-                    prev_cleaned_line = ""
-
                     if line.startswith("*CHI"):
                         text_original += line
                         if prev_line != line and not utils.is_empty_line(line):
@@ -35,7 +35,7 @@ for dirpath, dirnames, filenames in os.walk(dir_in):
                             cleaned_line = cleanch.preprocess(line)
 
                             # Check for duplicate and empty lines in cleaned text
-                            if prev_cleaned_line != cleaned_line and not utils.is_empty_line(cleaned_line):
+                            if prev_cleaned_line != cleaned_line and not utils.is_empty_line(cleaned_line) and not cleanch.is_one_word(cleaned_line_mw) and not re.match(r'^\[[\w\s]*\](\s*[.!?])?$', cleaned_line_mw):
                                 prev_cleaned_line = cleaned_line
                                 text_cleaned += cleaned_line
 
@@ -53,7 +53,7 @@ d_out = "/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES
 target_file_mw = "mc_whinney_cleaned"
 text_original_mw = ""
 text_cleaned_mw = ""
-n_files = 0
+n_files_mw = 0
 utils.profiling_init(utils)
 print("\n===CHILDES data processing===\nOpening files in '" + d_in + "':")
 
@@ -62,10 +62,10 @@ for file in os.listdir(d_in):
         print(".", end="")
         n_files += 1
         with open(d_in + file, encoding='utf8', errors='ignore') as f:
+            prev_line = ""
+            prev_cleaned_line = ""
+            
             for line in f:
-                prev_line = ""
-                prev_cleaned_line = ""
-
                 if line.startswith(("*MAR", "*CHI")):
                     text_original_mw += line
                     if prev_line != line and not utils.is_empty_line(line):
@@ -73,12 +73,12 @@ for file in os.listdir(d_in):
                         cleaned_line_mw = cleanch.clean(line)
 
                         # Check for duplicate and empty lines in cleaned text
-                        if prev_cleaned_line != cleaned_line_mw and not utils.is_empty_line(cleaned_line_mw):
+                        if prev_cleaned_line != cleaned_line_mw and not utils.is_empty_line(cleaned_line_mw) and not cleanch.is_one_word(cleaned_line_mw) and not re.match(r'^\[[\w\s]*\](\s*[.!?])?$', cleaned_line_mw):
                             prev_cleaned_line = cleaned_line_mw
                             text_cleaned_mw += cleaned_line_mw
 
-utils.report(n_files, text_original, text_cleaned)
-utils.save(d_out, target_file, text_original, text_cleaned)
+utils.report(n_files_mw, text_original_mw, text_cleaned_mw)
+utils.save(d_out, target_file_mw, text_original_mw, text_cleaned_mw)
 utils.profiling_end(utils)
 
 print("\n" + "CLEANING MACWHINNEY SUCCESS")
