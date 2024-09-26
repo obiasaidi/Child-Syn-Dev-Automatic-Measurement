@@ -1,6 +1,7 @@
 import regex as re
 import utils
 
+# Editing some words to its correct forms
 def fix_word(line):
     line = re.sub(r" em ", " them ", line)
     line = re.sub(r" ya |^ya ", " you ", line)
@@ -16,6 +17,7 @@ def fix_word(line):
     line = re.sub(r"going a ", "going to ", line)
     return line
 
+# Handling strings with $
 def gram(line):
     line = re.sub(r'\$n', '-[NOUN]', line)
     line = re.sub(r'\$v', '-[VERB]', line)
@@ -23,7 +25,7 @@ def gram(line):
     line = re.sub(r'\$inf', '-[INF]', line)
     return line
 
-
+# Cleaning for Brown
 def preprocess(line):
     line = ' '.join(line.strip().split())  # Remove extra spaces
     line = line[6:]  # Remove the first 6 characters
@@ -79,7 +81,7 @@ def preprocess(line):
     line = utils.remove_multiple_spacing(line)  # Handle multiple spaces
     return line + "\n"
 
-
+# Cleaning for MacWhinney
 def clean(line):
     line = ' '.join(line.strip().split())  # Remove extra spaces
     line = line[6:]  # Remove the first 6 characters
@@ -157,3 +159,7 @@ def clean(line):
     line = line.strip()
     line = utils.remove_multiple_spacing(line)
     return line + "\n"
+
+# Detecting if a line contains only one word
+def is_one_word(line):
+    return bool(re.match(r"^\s*[\w@'-]*(\s*[.!?])?$", line))
