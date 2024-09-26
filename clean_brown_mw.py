@@ -60,7 +60,7 @@ print("\n===CHILDES data processing===\nOpening files in '" + d_in + "':")
 for file in os.listdir(d_in):
     if file.endswith(".cha"):
         print(".", end="")
-        n_files += 1
+        n_files_mw += 1
         with open(d_in + file, encoding='utf8', errors='ignore') as f:
             prev_line = ""
             prev_cleaned_line = ""
