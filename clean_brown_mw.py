@@ -50,7 +50,7 @@ print("\n"+"CLEANING BROWN SUCCESS!!")
 d_in = "/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/MacWhinney/"
 d_out = "/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/"
 
-target_file_mw = "mc_whinney_cleaned"
+target_file_mw = "mcwhinney_cleaned.txt"
 text_original_mw = ""
 text_cleaned_mw = ""
 n_files_mw = 0
