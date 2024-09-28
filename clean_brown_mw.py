@@ -8,8 +8,8 @@ import glob
 
 
 # Cleaning Brown
-dir_in ="/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/Brown/"
-dir_out = "/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/Brown/"
+dir_in =".../Data/CHILDES/English/Brown/"
+dir_out = ".../Data/CHILDES/English/Brown/"
 target_file = "brown_clean.txt"
 text_original = ""
 text_cleaned = ""
