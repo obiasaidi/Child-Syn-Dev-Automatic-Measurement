@@ -3,7 +3,7 @@ This project aims to create an automated measurement of the development of child
 
 ## Data Preprocessing
 1. clean.py contains functions to clean noises in childes files
-2. utils.py contains a list of another functions to clean noises in childes files
+2. utils.py contains a list of optional functions to clean noises in childes files
 3. preprocess.py contains the code to process (including the cleaning) the corpora from text to a dataframe
 
 ## Parsing
