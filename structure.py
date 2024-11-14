@@ -12,7 +12,7 @@ def sent_segmentation(doc):
     target_labels = ['S', 'SBAR', 'SQ', 'SBARQ', 'VP', 'VB', 'VBP', 'VBD', 'VBZ', 'MD']
 
     def contains_target_label(tree):
-        """Recursively check if any node in the tree has a label in target_labels."""
+        # Recursively check if any node in the tree has a label in target_labels
         if tree.label() in target_labels:
             return True
         for child in tree:
