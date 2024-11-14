@@ -250,7 +250,7 @@ def struct_idf(text):
 
         # WH-QUESTIONS
         def wh_question(node):
-            """ Recursive function to check for WH-question structure in the tree. """
+            # Recursive function to check for WH-question structure in the tree
             if not isinstance(node, Tree):
                 return False
 
