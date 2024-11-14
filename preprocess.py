@@ -43,7 +43,7 @@ def text_to_df(d_in):
     return df
 
 
-data = text_to_df("/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/Brown/Adam/")  # Please Adjust your dir
+data = text_to_df("/Users/robiatualaddawiyah/Documents/College/Thesis_Project/Data/CHILDES/English/")  # Please Adjust your dir
 
 
 #  Convert age to month (Use when there found child_age column is empty)
